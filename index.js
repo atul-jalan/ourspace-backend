@@ -6,7 +6,8 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const auth = require("./auth.js");
 const app = express();
-app.listen(4000);
+app.listen(process.env.PORT || 4000);
+console.log(process.env.PORT)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
