@@ -234,6 +234,7 @@ MongoClient.connect(mongoURL, async (err, database) => {
 
 app.post("/test_test", async (req, res) => {
   console.log("RECEIVED!!!");
+  res.send("received")
 });
 
 //UNFINISHED -- need to finish all the filters
