@@ -277,7 +277,7 @@ app.post("/get_listings", async (req, res) => {
   return res.send({ listings: returnedListings });
 });
 
-//UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want
+//UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want.
 app.post("/post_listing", auth, async (req, res) => {
   let newListing = req.body.newListing;
 
