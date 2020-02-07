@@ -22,7 +22,10 @@ const corsOptions = {
     }
   },
 }
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 app.use(cookieParser());
 
 const dotenv = require("dotenv");
@@ -240,6 +243,7 @@ app.post("/test_test", async (req, res) => {
 
 //UNFINISHED -- need to finish all the filters
 app.post("/get_listings", async (req, res) => {
+  console.log('received listing request')
   const query = {
     // LOCATION FILTER
     "location.geodata": {
