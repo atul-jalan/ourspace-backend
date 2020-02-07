@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 const whiteList = ['http://localhost:3000', 'https://ourspace-75c0b.firebaseapp.com/']
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log(origin)
     if (whiteList.indexOf(origin) !== -1) {
       callback (null, true)
     } else {
@@ -21,7 +22,7 @@ const corsOptions = {
     }
   },
 }
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 const dotenv = require("dotenv");
