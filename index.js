@@ -7,21 +7,9 @@ const cookieParser = require("cookie-parser");
 const auth = require("./auth.js");
 const app = express();
 app.listen(process.env.PORT || 4000);
-console.log(process.env.PORT)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const whiteList = ['http://localhost:3000', 'https://ourspace-75c0b.firebaseapp.com/']
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log(origin)
-    if (whiteList.indexOf(origin) !== -1) {
-      callback (null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-}
 app.use(cors({
   origin: "*",
   credentials: true
@@ -236,11 +224,6 @@ MongoClient.connect(mongoURL, async (err, database) => {
   });
 });
 
-app.post("/test_test", async (req, res) => {
-  console.log("RECEIVED!!!");
-  res.send("received")
-});
-
 //UNFINISHED -- need to finish all the filters
 app.post("/get_listings", async (req, res) => {
   console.log('received listing request')
@@ -273,6 +256,9 @@ app.post("/get_listings", async (req, res) => {
   }
   if (req.body.filterLock == true) {
     query["attributes.hasLock"] = true;
+  }
+  if (req.body.filterParking == true) {
+    query["attributes.hasParking"] = true;
   }
 
   const returnedListings = await listings
