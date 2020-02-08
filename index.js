@@ -173,6 +173,16 @@ MongoClient.connect(mongoURL, async (err, database) => {
   });
   await listings.createIndex({ "location.geodata": "2dsphere" });
 
+  const dates = getDays("2020-04-10T17:00:00.000Z", "2020-05-12T17:00:00.000Z");
+  listings.update(
+    { _id: ObjectId("5e3f43b1b60ef535a8305627") },
+    {
+      $push: {
+        bookings: { $each: dates }
+      }
+    }
+  );
+
   users = await db.collection("Users", {
     validator: {
       $jsonSchema: {
@@ -314,6 +324,7 @@ const getDays = (startDate, stopDate) => {
   }
   return dateArray;
 };
+
 app.post("/book_listing", async (req, res) => {
   const dates = getDays(req.body.start, req.body.end);
   await listings.update(
