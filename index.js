@@ -274,21 +274,19 @@ app.post("/get_listings", async (req, res) => {
 app.post("/post_listing", auth, async (req, res) => {
   let newListing = req.body.newListing;
 
-  newListing.size.volume =
-    newListing.size.width * newListing.size.height * newListing.size.length;
-  newListing.host = ObjectId(req.user._id);
-  newListing.booked = [];
+  newListing.size.volume = newListing.size.width * newListing.size.height * newListing.size.length;
+  newListing.bookings = [];
 
-  let listingId;
+  // let listingId;
 
   await listings.insertOne(newListing, (err, listing) => {
     if (err) return res.status(400);
-    listingId = listing._id;
+    // listingId = listing._id;
   });
-  await users.update(
-    { _id: ObjectId(req.user._id) },
-    { "host.isHost": true, $push: { "host.listings": ObjectId(listingId) } }
-  );
+  // await users.update(
+  //   { _id: ObjectId(req.user._id) },
+  //   { "host.isHost": true, $push: { "host.listings": ObjectId(listingId) } }
+  // );
   return res.status(200).send({ status: "success" });
 });
 
