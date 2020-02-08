@@ -299,17 +299,29 @@ app.get("/delete_listing", auth, async (req, res) => {
   return res.status(200);
 });
 
-// UNFINISHED -- still need to add the booking to the user profile too.
-app.post("/book_listing", auth, async (req, res) => [
+const getDays = (startDate, stopDate) => {
+  var dateArray = new Array();
+  var currentDate = startDate;
+  while (currentDate <= stopDate) {
+    dateArray.push(currentDate);
+    var date = new Date(currentDate.valueOf());
+    date.setDate(date.getDate() + 1);
+    currentDate = date;
+  }
+  return dateArray;
+};
+
+app.post("/book_listing", async (req, res) => {
+  const dates = getDays(req.body.start, req.body.end);
   await listings.update(
     { _id: ObjectId(req.body.listingId) },
     {
       $push: {
-        booked: { startTime: req.body.startTime, endTime: req.body.endTime }
+        bookings: { $each: dates }
       }
     }
-  )
-]);
+  );
+});
 
 app.post("/login", async (req, res) => {
   const user = await users.findOne({ username: req.body.username });
