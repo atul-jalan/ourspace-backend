@@ -240,11 +240,11 @@ app.post("/get_listings", async (req, res) => {
       }
     },
     // SIZE FILTER
-    "size.volume": { $gt: req.body.minSize, $lt: req.body.maxSize },
+    "size.volume": { $gte: req.body.minSize, $lte: req.body.maxSize },
     // PRICE FILTER
-    price: { $gt: req.body.minPrice, $lt: req.body.maxPrice },
+    price: { $gte: req.body.minPrice, $lte: req.body.maxPrice },
     // RATING FILTER
-    "rating.score": { $gt: req.body.minRating, $lt: req.body.maxRating }
+    "rating.score": { $gte: req.body.minRating, $lte: req.body.maxRating }
   };
 
   // ATTRIBUTE FILTERS
