@@ -10,10 +10,12 @@ app.listen(process.env.PORT || 4000);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(cors({
-  origin: "*",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "*",
+    credentials: true
+  })
+);
 app.use(cookieParser());
 
 const dotenv = require("dotenv");
@@ -226,7 +228,7 @@ MongoClient.connect(mongoURL, async (err, database) => {
 
 //UNFINISHED -- need to finish all the filters
 app.post("/get_listings", async (req, res) => {
-  console.log('received listing request')
+  console.log("received listing request");
   const query = {
     // LOCATION FILTER
     "location.geodata": {
@@ -274,7 +276,8 @@ app.post("/get_listings", async (req, res) => {
 app.post("/post_listing", async (req, res) => {
   let newListing = req.body.listingObject;
 
-  newListing.size.volume = newListing.size.width * newListing.size.height * newListing.size.length;
+  newListing.size.volume =
+    newListing.size.width * newListing.size.height * newListing.size.length;
   newListing.bookings = [];
 
   // let listingId;
@@ -299,16 +302,29 @@ app.get("/delete_listing", auth, async (req, res) => {
 });
 
 // UNFINISHED -- still need to add the booking to the user profile too.
-app.post("/book_listing", auth, async (req, res) => [
+
+const getDays = (startDate, stopDate) => {
+  var dateArray = new Array();
+  var currentDate = startDate;
+  while (currentDate <= stopDate) {
+    dateArray.push(currentDate);
+    var date = new Date(currentDate.valueOf());
+    date.setDate(date.getDate() + 1);
+    currentDate = date;
+  }
+  return dateArray;
+};
+app.post("/book_listing", async (req, res) => {
+  const dates = getDays(req.body.start, req.body.end);
   await listings.update(
     { _id: ObjectId(req.body.listingId) },
     {
       $push: {
-        booked: { startTime: req.body.startTime, endTime: req.body.endTime }
+        bookings: { $each: dates }
       }
     }
-  )
-]);
+  );
+});
 
 app.post("/login", async (req, res) => {
   const user = await users.findOne({ username: req.body.username });
