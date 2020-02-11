@@ -8,7 +8,7 @@ const auth = require("./auth.js");
 const app = express();
 const listingObjects = require('./listings.json')
 app.listen(process.env.PORT || 4000);
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cors({
@@ -280,16 +280,10 @@ app.post("/post_listing", async (req, res) => {
   newListing.size.volume = newListing.size.width * newListing.size.height * newListing.size.length;
   newListing.bookings = [];
 
-  // let listingId;
-
   await listings.insertOne(newListing, (err, listing) => {
     if (err) return res.status(400);
-    // listingId = listing._id;
   });
-  // await users.update(
-  //   { _id: ObjectId(req.user._id) },
-  //   { "host.isHost": true, $push: { "host.listings": ObjectId(listingId) } }
-  // );
+
   return res.status(200).send({ status: "success" });
 });
 
