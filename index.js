@@ -234,10 +234,10 @@ app.post("/get_listings", async (req, res) => {
       $near: {
         $geometry: {
           type: "Point",
-          coordinates: [req.body.latitude, req.body.longitude]
+          coordinates: [req.body.longitude, req.body.latitude]
         },
-        $maxDistance: req.body.maxDistance,
-        $minDistance: req.body.minDistance
+        $maxDistance: req.body.maxDistance * 1609,
+        $minDistance: req.body.minDistance * 1609
       }
     },
     // SIZE FILTER
