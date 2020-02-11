@@ -274,15 +274,11 @@ app.post("/get_listings", async (req, res) => {
 //UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want.
 app.post("/post_listing", async (req, res) => {
   console.log('received post request')
-  let newListing = req.body.listingObject;
-  console.log(newListing)
-
+  let newListing = req.body.listingObject
   newListing.size.volume = newListing.size.width * newListing.size.height * newListing.size.length;
   newListing.bookings = [];
 
-  await listings.insertOne(newListing, (err, listing) => {
-    if (err) return res.status(400);
-  });
+  await listings.insertOne(newListing);
 
   return res.status(200).send({ status: "success" });
 });
