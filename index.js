@@ -8,8 +8,8 @@ const auth = require("./auth.js");
 const app = express();
 const listingObjects = require('./listings.json')
 app.listen(process.env.PORT || 4000);
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 
 app.use(cors({
   origin: "*",
