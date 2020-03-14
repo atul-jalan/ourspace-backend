@@ -11,7 +11,11 @@ app.listen(process.env.PORT || 4000);
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
-app.use(cors())
+app.use(cors({
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  'credentials': true
+}))
 
 app.use(cookieParser());
 
