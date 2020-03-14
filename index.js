@@ -273,7 +273,11 @@ app.post("/get_listings", async (req, res, next) => {
     .skip(req.body.listingsPerPage * (req.body.pageNumber - 1))
     .toArray();
 
-  return res.send({ listings: returnedListings });
+  
+  return res
+          .header("Access-Control-Allow-Origin", "*") // update to match the domain you will make the request from
+          .header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+          .send({ listings: returnedListings });
 });
 
 //UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want.
