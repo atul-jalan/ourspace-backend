@@ -11,9 +11,8 @@ app.listen(process.env.PORT || 4000);
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
-app.use(cors({
-  origin: "*"
-}));
+app.use(cors())
+
 app.use(cookieParser());
 
 const dotenv = require("dotenv");
