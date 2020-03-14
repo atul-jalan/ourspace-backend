@@ -1,9 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
 const auth = require("./auth.js");
 const app = express();
 const listingObjects = require('./listings.json')
@@ -11,12 +7,9 @@ app.listen(process.env.PORT || 4000);
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
-app.use(cookieParser());
+const cors = require("cors");
 
+app.use(cors());
 
 const dotenv = require("dotenv");
 dotenv.config();
