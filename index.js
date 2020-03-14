@@ -10,11 +10,12 @@ app.listen(process.env.PORT || 4000);
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
-app.use(cors({
+
+const corsStuff = {
   "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   'credentials': true
-}))
+}
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -225,7 +226,7 @@ MongoClient.connect(mongoURL, async (err, database) => {
 });
 
 //UNFINISHED -- need to finish all the filters
-app.post("/get_listings", async (req, res) => {
+app.post("/get_listings", cors(corsStuff), async (req, res) => {
   console.log('received listing request')
   const query = {
     // LOCATION FILTER
@@ -271,7 +272,7 @@ app.post("/get_listings", async (req, res) => {
 });
 
 //UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want.
-app.post("/post_listing", async (req, res) => {
+app.post("/post_listing", cors(corsStuff), async (req, res) => {
   console.log('received post request')
   let newListing = req.body.listingObject
   newListing.size.volume = newListing.size.width * newListing.size.height * newListing.size.length;
