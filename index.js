@@ -7,9 +7,15 @@ app.listen(process.env.PORT || 4000);
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
-const cors = require("cors");
+var cors = require("cors");
 
-app.use(cors());
+app.use(
+  cors({
+      credentials: true,
+      origin: true
+  })
+);
+app.options('*', cors());
 
 const dotenv = require("dotenv");
 dotenv.config();
