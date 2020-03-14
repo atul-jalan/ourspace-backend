@@ -233,49 +233,49 @@ app.all('*', function(req, res, next) {
 
 //UNFINISHED -- need to finish all the filters
 app.post("/get_listings", async (req, res, next) => {
-  console.log('received listing request')
-  const query = {
-    // LOCATION FILTER
-    "location.geodata": {
-      $near: {
-        $geometry: {
-          type: "Point",
-          coordinates: [req.body.longitude, req.body.latitude]
-        },
-        $maxDistance: req.body.maxDistance * 1609,
-        $minDistance: req.body.minDistance * 1609
-      }
-    },
-    // SIZE FILTER
-    "size.volume": { $gte: req.body.minSize, $lte: req.body.maxSize },
-    // PRICE FILTER
-    price: { $gte: req.body.minPrice, $lte: req.body.maxPrice },
-    // RATING FILTER
-    "rating.score": { $gte: req.body.minRating, $lte: req.body.maxRating }
-  };
+  // console.log('received listing request')
+  // const query = {
+  //   // LOCATION FILTER
+  //   "location.geodata": {
+  //     $near: {
+  //       $geometry: {
+  //         type: "Point",
+  //         coordinates: [req.body.longitude, req.body.latitude]
+  //       },
+  //       $maxDistance: req.body.maxDistance * 1609,
+  //       $minDistance: req.body.minDistance * 1609
+  //     }
+  //   },
+  //   // SIZE FILTER
+  //   "size.volume": { $gte: req.body.minSize, $lte: req.body.maxSize },
+  //   // PRICE FILTER
+  //   price: { $gte: req.body.minPrice, $lte: req.body.maxPrice },
+  //   // RATING FILTER
+  //   "rating.score": { $gte: req.body.minRating, $lte: req.body.maxRating }
+  // };
 
-  // ATTRIBUTE FILTERS
-  if (req.body.filterElevator == true) {
-    query["attributes.hasElevator"] = true;
-  }
-  if (req.body.filterRamp == true) {
-    query["attributes.hasRamp"] = true;
-  }
-  if (req.body.filterLock == true) {
-    query["attributes.hasLock"] = true;
-  }
-  if (req.body.filterParking == true) {
-    query["attributes.hasParking"] = true;
-  }
+  // // ATTRIBUTE FILTERS
+  // if (req.body.filterElevator == true) {
+  //   query["attributes.hasElevator"] = true;
+  // }
+  // if (req.body.filterRamp == true) {
+  //   query["attributes.hasRamp"] = true;
+  // }
+  // if (req.body.filterLock == true) {
+  //   query["attributes.hasLock"] = true;
+  // }
+  // if (req.body.filterParking == true) {
+  //   query["attributes.hasParking"] = true;
+  // }
 
-  const returnedListings = await listings
-    .find(query)
-    .limit(req.body.listingsPerPage)
-    .skip(req.body.listingsPerPage * (req.body.pageNumber - 1))
-    .toArray();
+  // const returnedListings = await listings
+  //   .find(query)
+  //   .limit(req.body.listingsPerPage)
+  //   .skip(req.body.listingsPerPage * (req.body.pageNumber - 1))
+  //   .toArray();
 
-  console.log(returnedListings)
-  return res.send({ listings: returnedListings });
+  // console.log(returnedListings)
+  return res.send({ listings: listingObjects });
 });
 
 //UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want.
