@@ -12,10 +12,11 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 
 app.use(cors({
-  origin: "*",
+  origin: true,
   credentials: true
 }));
 app.use(cookieParser());
+
 
 const dotenv = require("dotenv");
 dotenv.config();
