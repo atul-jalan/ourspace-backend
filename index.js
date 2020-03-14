@@ -12,10 +12,9 @@ var cors = require("cors");
 app.use(
   cors({
       credentials: true,
-      origin: true
+      origin: "*"
   })
 );
-app.options('*', cors());
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -225,8 +224,14 @@ MongoClient.connect(mongoURL, async (err, database) => {
   });
 });
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //UNFINISHED -- need to finish all the filters
-app.post("/get_listings", async (req, res) => {
+app.post("/get_listings", async (req, res, next) => {
   console.log('received listing request')
   const query = {
     // LOCATION FILTER
@@ -272,7 +277,7 @@ app.post("/get_listings", async (req, res) => {
 });
 
 //UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want.
-app.post("/post_listing", async (req, res) => {
+app.post("/post_listing", async (req, res, next) => {
   console.log('received post request')
   let newListing = req.body.listingObject
   newListing.size.volume = newListing.size.width * newListing.size.height * newListing.size.length;
