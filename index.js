@@ -274,7 +274,7 @@ app.post("/get_listings", async (req, res, next) => {
     .skip(req.body.listingsPerPage * (req.body.pageNumber - 1))
     .toArray();
 
-  print (returnedListings)
+  console.log(returnedListings)
   return res.send({ listings: returnedListings });
 });
 
