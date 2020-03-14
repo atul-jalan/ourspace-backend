@@ -224,9 +224,10 @@ MongoClient.connect(mongoURL, async (err, database) => {
   });
 });
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
@@ -274,10 +275,7 @@ app.post("/get_listings", async (req, res, next) => {
     .toArray();
 
   
-  return res
-          .header("Access-Control-Allow-Origin", "*") // update to match the domain you will make the request from
-          .header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-          .send({ listings: returnedListings });
+  return res.send({ listings: returnedListings });
 });
 
 //UNIFINISHED -- instead of having frontend send in an entire json object, just have them individually send everything you want.
