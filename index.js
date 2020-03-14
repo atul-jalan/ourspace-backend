@@ -13,7 +13,7 @@ app.use(bodyParser.json({limit: '50mb', extended: true}));
 
 const corsStuff = {
   "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   'credentials': true
 }
 
