@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
 const auth = require("./auth.js");
 const app = express();
 const listingObjects = require('./listings.json')
@@ -16,8 +15,6 @@ app.use(cors({
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   'credentials': true
 }))
-
-app.use(cookieParser());
 
 const dotenv = require("dotenv");
 dotenv.config();
